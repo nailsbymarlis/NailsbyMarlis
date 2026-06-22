@@ -345,28 +345,208 @@
   .cal-frame{
     max-width:760px;
     margin:0 auto;
-    border:1px solid rgba(184,146,78,0.4);
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 20px 44px -22px rgba(43,30,28,0.3);
-    background:#fff;
   }
-  .cal-frame iframe{
-    width:100%;
-    height:700px;
-    border:0;
-    display:block;
+
+  .cal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:1.8rem;
   }
-  .cal-fallback{
-    margin-top:1.2rem;
-    font-size:0.85rem;
-    color:#5a4a45;
-    font-weight:300;
-  }
-  .cal-fallback a{
+  .cal-header h3{
+    font-family:'Bodoni Moda', serif;
+    font-size:1.4rem;
     color:var(--wine);
+    margin:0;
+  }
+  .cal-nav{
+    display:flex;
+    gap:0.6rem;
+  }
+  .cal-nav button{
+    width:40px;
+    height:40px;
+    border:1px solid var(--gold);
+    background:transparent;
+    color:var(--wine);
+    font-weight:600;
+    cursor:pointer;
+    border-radius:8px;
+    transition:all .25s ease;
+  }
+  .cal-nav button:hover{background:var(--gold); color:var(--wine-deep);}
+
+  .cal-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:1rem;
+    margin-bottom:2rem;
+  }
+
+  .day-card{
+    border:1px solid rgba(94,36,54,0.12);
+    border-radius:12px;
+    padding:1rem;
+    background:var(--cream-soft);
+    transition:all .25s ease;
+  }
+  .day-card.disabled{opacity:0.5; cursor:not-allowed;}
+  .day-card.disabled .time-btn{cursor:not-allowed;}
+
+  .day-card h4{
+    font-size:0.9rem;
+    color:var(--wine-deep);
+    text-transform:capitalize;
+    margin:0 0 0.8rem;
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+
+  .day-card p{
+    font-size:0.75rem;
+    color:#8a746c;
+    margin:0 0 0.8rem;
+  }
+
+  .times{
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+  }
+
+  .time-btn{
+    padding:0.6rem 0.8rem;
+    border:1px solid var(--gold);
+    background:transparent;
+    color:var(--wine);
+    font-size:0.8rem;
+    border-radius:6px;
+    cursor:pointer;
+    transition:all .2s ease;
     font-weight:500;
-    border-bottom:1px solid var(--gold);
+  }
+  .time-btn.available:hover{
+    background:var(--gold);
+    color:var(--wine-deep);
+  }
+  .time-btn.booked{
+    background:#ddd;
+    color:#999;
+    border-color:#ddd;
+    cursor:not-allowed;
+  }
+  .time-btn.loading{opacity:0.6;}
+
+  /* Modal de reserva */
+  .booking-modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:1.5rem;
+  }
+  .booking-modal.active{display:flex;}
+
+  .modal-content{
+    background:#fff;
+    border-radius:16px;
+    padding:2rem;
+    max-width:400px;
+    width:100%;
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .modal-content h3{
+    font-family:'Bodoni Moda', serif;
+    font-size:1.5rem;
+    color:var(--wine);
+    margin:0 0 0.5rem;
+  }
+
+  .modal-content p{
+    color:#5a4a45;
+    font-size:0.95rem;
+    margin:0 0 1.5rem;
+  }
+
+  .form-group{
+    margin-bottom:1.2rem;
+  }
+  .form-group label{
+    display:block;
+    font-size:0.85rem;
+    color:var(--wine-deep);
+    margin-bottom:0.4rem;
+    font-weight:500;
+  }
+  .form-group input{
+    width:100%;
+    padding:0.8rem;
+    border:1px solid rgba(94,36,54,0.2);
+    border-radius:8px;
+    font-size:0.95rem;
+    font-family:inherit;
+  }
+  .form-group input:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(184,146,78,0.1);
+  }
+
+  .modal-actions{
+    display:flex;
+    gap:0.8rem;
+    margin-top:1.8rem;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:0.8rem;
+    border-radius:8px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+  }
+  .btn-confirm{
+    background:var(--gold);
+    color:var(--wine-deep);
+  }
+  .btn-confirm:hover{transform:translateY(-2px); box-shadow:0 8px 16px rgba(184,146,78,0.3);}
+  .btn-cancel{
+    background:#f0f0f0;
+    color:#666;
+  }
+  .btn-cancel:hover{background:#e0e0e0;}
+
+  .loading-spinner{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    border:2px solid rgba(94,36,54,0.2);
+    border-top-color:var(--wine);
+    border-radius:50%;
+    animation:spin .6s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .message{
+    padding:1rem;
+    border-radius:8px;
+    margin-bottom:1rem;
+    font-size:0.95rem;
+  }
+  .message.success{
+    background:#e8f5e9;
+    color:#2e7d32;
+    border:1px solid #c8e6c9;
+  }
+  .message.error{
+    background:#ffebee;
+    color:#c62828;
+    border:1px solid #ffcdd2;
   }
 
   /* ---------- INFO BAND ---------- */
@@ -508,7 +688,7 @@
 <section class="booking" id="reservar">
   <p class="eyebrow">Disponibilidad en tiempo real</p>
   <h2>Reserva tu <em>turno</em></h2>
-  <p class="sub">Elige el horario que veas libre. Se actualiza al instante: lo que ves disponible, lo está de verdad.</p>
+  <p class="sub">Selecciona el día y horario que prefieras. Se confirma al instante.</p>
   <div class="slots">
     <span class="slot-chip">Lun – Sáb</span>
     <span class="slot-chip">8:00 am</span>
@@ -518,9 +698,46 @@
   </div>
 
   <div class="cal-frame">
-    <iframe src="https://calendly.com/mojenaalonsomarlis/turnos-de-unas?hide_event_type_details=1&hide_gdpr_banner=1" title="Calendario de turnos disponibles" loading="lazy"></iframe>
+    <div class="cal-header">
+      <h3 id="calMes">Cargando...</h3>
+      <div class="cal-nav">
+        <button id="prevBtn" onclick="cambiarMes(-1)">‹</button>
+        <button id="nextBtn" onclick="cambiarMes(1)">›</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="calGrid">
+      <p style="grid-column: 1/-1; text-align:center; color:#888;">Cargando disponibilidad...</p>
+    </div>
   </div>
-  <p class="cal-fallback">¿No carga el calendario? <a href="https://calendly.com/mojenaalonsomarlis/turnos-de-unas" target="_blank" rel="noopener">Reserva aquí directamente</a></p>
+
+  <!-- Modal para confirmar reserva -->
+  <div class="booking-modal" id="bookingModal">
+    <div class="modal-content">
+      <h3>Confirmar reserva</h3>
+      <p id="modalFecha"></p>
+      
+      <div id="messageArea"></div>
+
+      <form id="bookingForm" onsubmit="enviarReserva(event)">
+        <div class="form-group">
+          <label for="nombre">Nombre completo *</label>
+          <input type="text" id="nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="telefono">WhatsApp (con +53) *</label>
+          <input type="tel" id="telefono" placeholder="+53 5..." required>
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico *</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-confirm">Reservar</button>
+          <button type="button" class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </section>
 
 <section class="info">
@@ -559,13 +776,21 @@
 </footer>
 
 <script>
-  // Nav background on scroll
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbCZ-C5nbKXC3-E6NVw4dIDq8FY1GYyP0D0BdDJQKe3OZr6VdWn1IHh1RRj4Atn2SM/exec';
+  
+  let mesActual = new Date().getMonth() + 1;
+  let añoActual = new Date().getFullYear();
+  let disponibilidad = {};
+  let fechaSeleccionada = null;
+  let horaSeleccionada = null;
+
+  // Nav scroll
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive:true });
 
-  // Reveal gallery cards on scroll
+  // Gallery reveal
   const cards = document.querySelectorAll('.nail-card');
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -576,6 +801,135 @@
     });
   }, { threshold: 0.3 });
   cards.forEach(c => io.observe(c));
+
+  // Calendario
+  function cambiarMes(offset) {
+    mesActual += offset;
+    if (mesActual > 12) { mesActual = 1; añoActual++; }
+    if (mesActual < 1) { mesActual = 12; añoActual--; }
+    cargarDisponibilidad();
+  }
+
+  function cargarDisponibilidad() {
+    const url = APPS_SCRIPT_URL + `?action=getDisponibilidad&mes=${mesActual}&año=${añoActual}`;
+    
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        disponibilidad = data;
+        mostrarCalendario();
+      })
+      .catch(e => {
+        console.error('Error cargando disponibilidad:', e);
+        document.getElementById('calGrid').innerHTML = '<p style="grid-column:1/-1; color:red;">Error cargando disponibilidad. Intenta de nuevo.</p>';
+      });
+  }
+
+  function mostrarCalendario() {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    document.getElementById('calMes').textContent = `${meses[mesActual - 1]} ${añoActual}`;
+
+    const grid = document.getElementById('calGrid');
+    grid.innerHTML = '';
+
+    for (const [dia, info] of Object.entries(disponibilidad)) {
+      const card = document.createElement('div');
+      card.className = 'day-card';
+      
+      const fecha = new Date(añoActual, mesActual - 1, parseInt(dia));
+      const hoy = new Date();
+      const esPasado = fecha < new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+
+      if (esPasado) {
+        card.classList.add('disabled');
+      }
+
+      let html = `<h4>${dia} ${info.dia}</h4><p>${fecha.toLocaleDateString('es-ES', {month:'short', year:'numeric'})}</p><div class="times">`;
+
+      info.horarios.forEach(h => {
+        const disponible = h.disponible && !esPasado;
+        const clase = disponible ? 'available' : 'booked';
+        const texto = disponible ? h.hora : h.hora + ' (ocupado)';
+        const onclick = disponible ? `abrirModal('${dia}/${mesActual}/${añoActual}', '${h.hora}')` : '';
+        
+        html += `<button type="button" class="time-btn ${clase}" ${onclick ? `onclick="${onclick}"` : 'disabled'}>${texto}</button>`;
+      });
+
+      html += '</div>';
+      card.innerHTML = html;
+      grid.appendChild(card);
+    }
+  }
+
+  function abrirModal(fecha, hora) {
+    fechaSeleccionada = fecha;
+    horaSeleccionada = hora;
+    
+    const [d, m, a] = fecha.split('/');
+    const dateObj = new Date(a, m - 1, d);
+    const diaNombre = dateObj.toLocaleDateString('es-ES', {weekday:'long', month:'long', day:'numeric'});
+    
+    document.getElementById('modalFecha').textContent = `Turno: ${diaNombre} a las ${hora}`;
+    document.getElementById('messageArea').innerHTML = '';
+    document.getElementById('bookingForm').reset();
+    document.getElementById('bookingModal').classList.add('active');
+  }
+
+  function cerrarModal() {
+    document.getElementById('bookingModal').classList.remove('active');
+    fechaSeleccionada = null;
+    horaSeleccionada = null;
+  }
+
+  function enviarReserva(e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value;
+    const telefono = document.getElementById('telefono').value;
+    const email = document.getElementById('email').value;
+
+    const btn = e.target.querySelector('.btn-confirm');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span>';
+
+    const url = APPS_SCRIPT_URL + '?action=reservarTurno&nombre=' + encodeURIComponent(nombre) 
+      + '&telefono=' + encodeURIComponent(telefono)
+      + '&email=' + encodeURIComponent(email)
+      + '&fecha=' + encodeURIComponent(fechaSeleccionada)
+      + '&hora=' + encodeURIComponent(horaSeleccionada);
+
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = 'Reservar';
+
+        const messageArea = document.getElementById('messageArea');
+        if (data.exito) {
+          messageArea.innerHTML = `<div class="message success">✓ ${data.mensaje}<br><small>Revisa tu correo y tu WhatsApp.</small></div>`;
+          setTimeout(() => {
+            cerrarModal();
+            cargarDisponibilidad();
+          }, 2000);
+        } else {
+          messageArea.innerHTML = `<div class="message error">✗ ${data.mensaje}</div>`;
+        }
+      })
+      .catch(e => {
+        btn.disabled = false;
+        btn.innerHTML = 'Reservar';
+        document.getElementById('messageArea').innerHTML = `<div class="message error">Error de conexión. Intenta de nuevo.</div>`;
+        console.error('Error:', e);
+      });
+  }
+
+  // Cargar disponibilidad al abrir la página
+  window.addEventListener('load', cargarDisponibilidad);
+
+  // Cerrar modal al clickear afuera
+  document.getElementById('bookingModal').addEventListener('click', (e) => {
+    if (e.target.id === 'bookingModal') cerrarModal();
+  });
 </script>
 
 </body>
